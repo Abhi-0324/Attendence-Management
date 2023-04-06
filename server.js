@@ -6,9 +6,15 @@ const { Student } = require('./models/student');
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/bunk-manager', {
+const uri = 'mongodb+srv://20bcs092:20bcs092Attendence@cluster0.woxiouc.mongodb.net/test?retryWrites=true&w=majority';
+
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connected to MongoDB Atlas');
+}).catch((error) => {
+  console.log('Error connecting to MongoDB Atlas: ', error);
 });
 
 // Use body-parser middleware
