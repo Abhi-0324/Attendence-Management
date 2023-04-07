@@ -66,12 +66,15 @@ const getAttendance = async (req, res) => {
 const updateAttendance = async (req, res) => {
   try {
     const { id } = req.student;
-    const { date } = req.body;
+    const { date, className } = req.body;
 
     // Find the student by ID and update their attendance data
-    const updatedStudent = await Student.findByIdAndUpdate(id, { $addToSet: { attendance: date } }, { new: true });
+    const updatedStudent = await Student.findByIdAndUpdate(id, {
+      $addToSet: { [`attendance.${className}`]: date },
+      $inc: { [`totalClasses.${className}`]: 1 }
+    }, { new: true });
 
-    return res.status(200).json(updatedStudent.attendance);
+    return res.status(200).json(updatedStudent.attendance[className]);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });

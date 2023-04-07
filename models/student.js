@@ -5,17 +5,27 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  rollNumber: {
+  email: {
     type: String,
     required: true,
     unique: true,
   },
-  attendedClasses: {
-    type: Number,
-    default: 0,
+  password: {
+    type: String,
+    required: true,
+  },
+  attendance: {
+    type: Map,
+    of: [{ type: Date }],
+    default: {},
+  },
+  totalClasses: {
+    type: Map,
+    of: { type: Number },
+    default: {},
   },
 });
 
 const Student = mongoose.model('Student', studentSchema);
 
-module.exports = { Student };
+module.exports = Student;
